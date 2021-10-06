@@ -1,9 +1,12 @@
+// eh o que vai ser rodado
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// chama o componente App
 ReactDOM.render(
   <React.StrictMode>
     <App />
