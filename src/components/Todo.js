@@ -21,8 +21,10 @@ function Todo({listItem, leftTodo}) {
   const [checked, setChecked] = useState(false);
   
   function handleChecked(event) {
-    setChecked(event.target.checked)
-    leftTodo(event.target.checked ? -1 : 1)
+    let nChecked = event.target.checked
+    setChecked(nChecked)
+    leftTodo(nChecked ? -1 : 1)
+    listItem.checked = nChecked
   }
 
   return (
