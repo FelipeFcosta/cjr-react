@@ -1,57 +1,79 @@
 // import logo from './logo.svg';
 import './App.css';
 import {useState} from 'react'    // um Hook
-import TodoList from './components/TodoList';
+import Todo from './components/Todo';
+import styled from "styled-components"
 
-// para o react monitorar se alguma variavel da tela foi modificada
-// e atualizar a tela, use o estado
+const DivApp = styled.div`
+  text-align: center;
+  margin-inline: auto;
+  width: 500px;
+
+  > * {     // style all children
+    width: 100%;
+  }
+`
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`
+
+const Ul = styled.ul`
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+`
 
 
 function App() {
-
   const [countTodo, setNumero] = useState(0)  // useState to re-render components
   const [lista, setLista] = useState([])
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
 
-  function count() {
-    setNumero(prevNumero => prevNumero + 1)
+  function count(step) {
+    setNumero(prevNumero => prevNumero + step)
+    console.log("count")
   }
+
   function handleCreation(event) {
     // todo synthetic event nos da um objeto event
-    event.preventDefault()  // prevent page reload, so we won't lost the states
-
-    // melhor usar states do que isso
-    //const title = document.querySelector('#title')
-    //const description = document.querySelector('#description')
+    event.preventDefault()  // prevent page reload, so we won't lose the states
 
     if (title !== "") {
-      const nTodo = {title: title, description: description, id: lista.length}
+      const nTodo = {title: title, description: description, checked: false, id: lista.length}
       setLista(lista => [...lista, nTodo])
 
       setTitle("")
       setDescription("")
-      count();
+      count(1);
     }
   }
 
   // onSubmit, onChange sao synthetic events
   // event.target.value (target - elemento do DOM que esta sendo afetado)
   return (
-    <div className="App">
+    <DivApp>
       <h1>{countTodo} coisas para fazer</h1>
-      <form onSubmit={handleCreation} autoComplete="off">
+      <Form onSubmit={handleCreation} autoComplete="off">
         <label>Title</label>
-        <input type="text" value={title} onChange={(event) => {setTitle(event.target.value)}}/>
+        <input style={{padding: "0.5em"}} type="text" value={title} onChange={(event) => {setTitle(event.target.value)}}/>
 
         <label>Description</label>
         <textarea cols="15" rows="3" value={description} onChange={(event) => {setDescription(event.target.value)}}/>
         <button>create</button>
-      </form>
+      </Form>
 
-      <TodoList list={lista}/>
-    </div>
+      <Ul>
+        {lista.map( (listItem) =>   // pra cada item da lista, criar um li
+          <Todo key={listItem.id} listItem={listItem} leftTodo={count}/>
+        )}
+      </Ul>
+
+    </DivApp>
   );
 }
 

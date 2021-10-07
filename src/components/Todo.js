@@ -1,38 +1,40 @@
 import styled from "styled-components"
+import {useState} from 'react'
 
 const Li = styled.li`
   border-radius: 16px;
-  margin-right: auto;
   padding: 10px;
   margin-bottom: 16px;
   background-color: #3e4147;
   text-align: start;
-
+  
   > * {     // style all children
     background-color: #3e4147;
+    word-wrap: break-word;
   }
 `
 
 // Componente, funcao que retorna um jsx
 // props eh um objeto com varios parametros (properties)
 // className pois class eh reservado
-function Todo({title, description, id}) {   // no lugar de 'props'
-  if (description !== ""){
-    return (
-      <Li key={id}>  {/*para identificar e poder alterar li na tela*/}
-        <input type="checkbox"/>
-        <span>{title}</span>
-        <p>({description})</p>
-      </Li>
-    )
-  } else {
-    return (
-      <Li key={id}>
-        <input type="checkbox"/>
-        <span>{title}</span>
-      </Li>
+function Todo({listItem, leftTodo}) {
+  const [checked, setChecked] = useState(false);
+  
+  function handleChecked(event) {
+    setChecked(event.target.checked)
+    leftTodo(event.target.checked ? -1 : 1)
+  }
+
+  return (
+    <Li>
+      <input type="checkbox"
+        checked={checked ? "checked" : ""}
+        onChange={handleChecked}/>
+
+      <span>{listItem.title}</span>
+      {listItem.description ? <p>({listItem.description})</p> : <span></span>}
+    </Li>
     )
   }
-}
 
 export default Todo
