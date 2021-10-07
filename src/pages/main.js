@@ -1,13 +1,32 @@
-import {useState} from 'react'    // um Hook
+import axios from 'axios';
+import {useEffect, useState} from 'react'    // um Hook
 import Todo from '../components/Todo';
 import {DivApp, Form, Ul} from '../styles/styles';
 
+
+
 function Main() {
+
   const [countTodo, setNumero] = useState(0)  // useState to re-render components
   const [lista, setLista] = useState([])
-
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
+  const [users, setUsers] = useState([])
+
+
+  // efeito colateral: acontece quando o react chama uma coisa de fora
+  // By using the useEffect Hook, you tell React that your component needs to do something after render.
+  useEffect(() => {
+    // pegar dados da API (atraves de requisicao http utilizando o axios)
+    // quero requisitar quando carregar a pagina
+    axios.get("http://198.74.50.215:3000/user/2/todos")  // get all todos from user 2
+      .then((res) => {            // after axios gets the response 
+        setLista(res.data)        // dados da resposta http
+      })
+      .catch((res) => {
+        console.log("falhou")
+      })
+  }, [])
 
   function count(step) {
     setNumero(prevNumero => prevNumero + step)

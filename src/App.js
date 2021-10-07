@@ -3,12 +3,12 @@ import './App.css';
 import Main from './pages/main';
 import Profile from './pages/profile';
 import Login from './pages/login';
+import Register from './pages/register';
 
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 
@@ -21,6 +21,9 @@ function App() {
         </Route>
         <Route path="/login">
           <Login/>
+        </Route>
+        <Route path="/register">
+          <Register/>
         </Route>
         <Route path="/">
           <Main/>
